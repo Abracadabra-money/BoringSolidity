@@ -1,0 +1,50 @@
+name: Foundry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    strategy:
+      fail-fast: true
+
+    name: BoringSolidity Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - run: rustc --version
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: yarn --ignore-scripts
+      - run: node init.js lib/
+
+      - name: Run build
+        run: |
+          forge --version
+          yarn build
+        id: build
+
+      - name: Run tests
+        run: |
+          yarn test:gas
+        id: test

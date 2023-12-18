@@ -10,7 +10,8 @@
     "contracts"
   ],
   "scripts": {
-    "build": "hardhat compile",
+    "build": "hardhat compile && forge build --sizes",
+    "clean": "hardhat clean && forge clean",
     "console": "hardhat console",
     "mainnet:deploy": "hardhat --network mainnet deploy",
     "mainnet:verify": "hardhat --network mainnet etherscan-verify --solc-input --license UNLICENSED",
@@ -24,7 +25,7 @@
     "coverage": ".\\node_modules\\.bin\\hardhat.cmd coverage",
     "test": "hardhat test --deploy-fixture && forge test -vv",
     "test:coverage": "node --max-old-space-size=4096 ./node_modules/.bin/hardhat coverage",
-    "test:gas": "REPORT_GAS=true yarn test",
+    "test:gas": "REPORT_GAS=true hardhat test --deploy-fixture && forge test --gas-report -vv",
     "certora-erc20": "certoraRun contracts\\ERC20.sol:ERC20WithSupply --verify ERC20WithSupply:test\\certora\\ERC20.spec --jar C:\\\\certora\\\\cvt.jar",
     "certora": "certoraRun contracts\\mocks\\MockSingleNFT.sol:MockSingleNFT --verify MockSingleNFT:test\\certora\\SingleNFT.spec --jar C:\\\\certora\\\\emv2.jar --optimistic_loop --rule_sanity",
     "prettier": "prettier --write test/**/*.js contracts/**/*.sol",

@@ -36,7 +36,6 @@ jobs:
         with:
           node-version: '18.x'
       - run: yarn --ignore-scripts
-      - run: node init.js lib/
 
       - name: Run build
         run: |

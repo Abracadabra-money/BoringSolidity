@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "../libraries/BoringRebase.sol";
+import {RebaseLibrary, Rebase} from "../libraries/BoringRebase.sol";
 
 contract MockBoringRebase {
     using RebaseLibrary for Rebase;

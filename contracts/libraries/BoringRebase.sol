@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+import {BoringMath, BoringMath128} from "./BoringMath.sol";
 
 struct Rebase {
     uint128 elastic;
@@ -8,6 +9,9 @@ struct Rebase {
 
 /// @notice A rebasing library using overflow-/underflow-safe math.
 library RebaseLibrary {
+    using BoringMath for uint256;
+    using BoringMath128 for uint128;
+
     /// @notice Calculates the base value in relationship to `elastic` and `total`.
     function toBase(
         Rebase memory total,
@@ -49,8 +53,8 @@ library RebaseLibrary {
         bool roundUp
     ) internal pure returns (Rebase memory, uint256 base) {
         base = toBase(total, elastic, roundUp);
-        total.elastic += uint128(elastic);
-        total.base += uint128(base);
+        total.elastic += elastic.to128();
+        total.base += base.to128();
         return (total, base);
     }
 
@@ -63,8 +67,8 @@ library RebaseLibrary {
         bool roundUp
     ) internal pure returns (Rebase memory, uint256 elastic) {
         elastic = toElastic(total, base, roundUp);
-        total.elastic -= uint128(elastic);
-        total.base -= uint128(base);
+        total.elastic -= elastic.to128();
+        total.base -= base.to128();
         return (total, elastic);
     }
 
@@ -74,8 +78,8 @@ library RebaseLibrary {
         uint256 elastic,
         uint256 base
     ) internal pure returns (Rebase memory) {
-        total.elastic += uint128(elastic);
-        total.base += uint128(base);
+        total.elastic += elastic.to128();
+        total.base += base.to128();
         return total;
     }
 
@@ -85,20 +89,20 @@ library RebaseLibrary {
         uint256 elastic,
         uint256 base
     ) internal pure returns (Rebase memory) {
-        total.elastic -= uint128(elastic);
-        total.base -= uint128(base);
+        total.elastic -= elastic.to128();
+        total.base -= base.to128();
         return total;
     }
 
     /// @notice Add `elastic` to `total` and update storage.
     /// @return newElastic Returns updated `elastic`.
     function addElastic(Rebase storage total, uint256 elastic) internal returns (uint256 newElastic) {
-        newElastic = total.elastic += uint128(elastic);
+        newElastic = total.elastic += elastic.to128();
     }
 
     /// @notice Subtract `elastic` from `total` and update storage.
     /// @return newElastic Returns updated `elastic`.
     function subElastic(Rebase storage total, uint256 elastic) internal returns (uint256 newElastic) {
-        newElastic = total.elastic -= uint128(elastic);
+        newElastic = total.elastic -= elastic.to128();
     }
 }

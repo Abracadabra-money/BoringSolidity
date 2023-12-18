@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "../interfaces/IMasterContract.sol";
-import "./MockERC20.sol";
+import {IMasterContract} from "../interfaces/IMasterContract.sol";
+import {MockERC20} from "./MockERC20.sol";
 
 contract MockMasterContract is MockERC20(10000), IMasterContract {
     function init(bytes calldata data) public payable override {

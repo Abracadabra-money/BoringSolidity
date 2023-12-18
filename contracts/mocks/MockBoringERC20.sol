@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "../libraries/BoringERC20.sol";
+import {BoringERC20, IERC20} from "../libraries/BoringERC20.sol";
 
 contract MockBoringERC20 {
     using BoringERC20 for IERC20;

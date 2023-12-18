@@ -16,3 +16,5 @@ scripts/make_abi.js
 .certora*
 emv-*
 resource_errors.json
+cache/
+out/
